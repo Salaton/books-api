@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type BookDetails struct {
 	URL           string   `json:"url"`
 	Name          string   `json:"name"`
@@ -15,7 +17,9 @@ type BookDetails struct {
 }
 
 type Comments struct {
-	Book      string `json:"book"`
-	Comment   string `json:"comment"`
-	IPAddress string `json:"ip"`
+	ID        string     `json:"id"`
+	Book      string     `json:"book"`
+	Comment   string     `json:"comment"`
+	IPAddress string     `json:"ip"`
+	CreatedAt *time.Time `json:"created_at"`
 }
