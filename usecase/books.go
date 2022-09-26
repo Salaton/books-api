@@ -7,8 +7,10 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"time"
 
 	"github.com/Salaton/books-api/models"
+	"github.com/Salaton/books-api/repository"
 )
 
 const (
@@ -18,13 +20,17 @@ const (
 
 type BookStore interface {
 	GetBookDetails(ctx context.Context) ([]*models.BookDetails, error)
+	AddComment(ctx context.Context, input models.Comments) error
 }
 
 type BookStoreDetails struct {
+	create repository.Create
 }
 
-func NewBookStoreImplementation() *BookStoreDetails {
-	return &BookStoreDetails{}
+func NewBookStoreImplementation(create repository.Create) *BookStoreDetails {
+	return &BookStoreDetails{
+		create: create,
+	}
 }
 
 func (b *BookStoreDetails) GetBookDetails(ctx context.Context) ([]*models.BookDetails, error) {
@@ -46,6 +52,18 @@ func (b *BookStoreDetails) GetBookDetails(ctx context.Context) ([]*models.BookDe
 	}
 
 	return booksData, nil
+}
+
+func (b *BookStoreDetails) AddComment(ctx context.Context, input models.Comments) error {
+	// TODO: Capture the IP Address here
+	currentTime := time.Now()
+	input.CreatedAt = &currentTime
+	err := b.create.CreateComment(ctx, input)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // TODO: Extract this to a different file

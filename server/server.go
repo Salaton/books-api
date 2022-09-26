@@ -13,17 +13,19 @@ import (
 func Router(ctx context.Context) *gin.Engine {
 	router := gin.Default()
 
-	booksUseCase := usecase.NewBookStoreImplementation()
-	handler := handlers.NewHandlersImplementation(booksUseCase)
-
-	_, err := database.ConnectToDatabase()
+	postgresDB, err := database.ConnectToDatabase()
 	if err != nil {
 		log.Fatal().Err(err).Msg("an error occured while connecting to the database")
 	}
 
+	repository := database.NewBooksDataStore(postgresDB)
+	booksUseCase := usecase.NewBookStoreImplementation(repository)
+	handler := handlers.NewHandlersImplementation(booksUseCase)
+
 	v1 := router.Group("/api/v1")
 	{
 		v1.GET("/books", handler.GetBookDetails)
+		v1.POST("/comments", handler.AddComment)
 	}
 
 	return router
