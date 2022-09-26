@@ -1,6 +1,6 @@
 BEGIN;
 
-DROP TABLE IF EXISTS book_comments;
+DROP TABLE IF EXISTS comments;
 
 COMMIT;
 
