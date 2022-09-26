@@ -2,31 +2,22 @@ package server
 
 import (
 	"context"
-	"net/http"
-	"time"
 
-	"github.com/gorilla/mux"
+	"github.com/Salaton/books-api/server/handlers"
+	"github.com/Salaton/books-api/usecase"
+	"github.com/gin-gonic/gin"
 )
 
-// Create the mux router
-func Router(ctx context.Context) *mux.Router {
-	r := mux.NewRouter()
+func Router(ctx context.Context) *gin.Engine {
+	router := gin.Default()
 
-	return r
-}
+	booksUseCase := usecase.NewBookStoreImplementation()
+	handler := handlers.NewHandlersImplementation(booksUseCase)
 
-// Create the server
-func CreateServer(ctx context.Context, port string) *http.Server {
-	router := Router(ctx)
-
-	return &http.Server{
-		Addr:              port,
-		Handler:           router,
-		IdleTimeout:       time.Second * 60,
-		WriteTimeout:      time.Second * 120,
-		ReadTimeout:       time.Second * 120,
-		ReadHeaderTimeout: time.Second * 120,
+	v1 := router.Group("/api/v1")
+	{
+		v1.GET("/books", handler.GetBookDetails)
 	}
-}
 
-// Initialize the server on port 8080
+	return router
+}

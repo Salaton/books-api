@@ -15,7 +15,7 @@ var rootCmd = &cobra.Command{
 	Use:   "books-api",
 	Short: "Just a library used to list some book names",
 	Long: `Salibrary is a small service that provides a lot of data about the world of Westeros. If you have no idea 
-	where Westeros is, perhaps you should watch some Game Of Thrones show. 
+	where Westeros is, perhaps you should watch some Game of Thrones or House of The Dragon show. 
 	`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
