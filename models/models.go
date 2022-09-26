@@ -13,3 +13,9 @@ type BookDetails struct {
 	Characters    []string `json:"characters"`
 	PovCharacters []string `json:"povCharacters"`
 }
+
+type Comments struct {
+	Book      string `json:"book"`
+	Comment   string `json:"comment"`
+	IPAddress string `json:"ip"`
+}
