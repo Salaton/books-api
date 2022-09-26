@@ -1,8 +1,11 @@
 package database
 
 import (
+	"context"
 	"fmt"
 
+	"github.com/Salaton/books-api/models"
+	"github.com/google/uuid"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -33,4 +36,21 @@ func ConnectToDatabase() (*gorm.DB, error) {
 	}
 	// export POSTGRESQL_URL="postgres://sala:krychowiak-254@localhost:5432/books?sslmode=disable"
 	return db, nil
+}
+
+func (db *BooksDB) CreateComment(ctx context.Context, input models.Comments) error {
+	comment := models.Comments{
+		// TODO: create the UUID in a hook
+		ID:        uuid.New().String(),
+		Book:      input.Book,
+		Comment:   input.Comment,
+		IPAddress: input.IPAddress,
+		CreatedAt: input.CreatedAt,
+	}
+
+	if err := db.db.Create(&comment).Error; err != nil {
+		return fmt.Errorf("failed to create comment: %w", err)
+	}
+
+	return nil
 }
