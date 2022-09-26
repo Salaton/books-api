@@ -1,8 +1,9 @@
 package cmd
 
 import (
-	"fmt"
+	"context"
 
+	"github.com/Salaton/books-api/server"
 	"github.com/spf13/cobra"
 )
 
@@ -12,8 +13,8 @@ var serveCmd = &cobra.Command{
 	Short: "This command will be used to run the server",
 	Long:  `Serve is a command used to run the server`,
 	Run: func(cmd *cobra.Command, args []string) {
-		// call the initialize server command here
-		fmt.Println("serve called")
+		srv := server.Router(context.Background())
+		srv.Run()
 	},
 }
 
