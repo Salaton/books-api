@@ -31,5 +31,6 @@ func ConnectToDatabase() (*gorm.DB, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to DB: %w", err)
 	}
+	// export POSTGRESQL_URL="postgres://sala:krychowiak-254@localhost:5432/books?sslmode=disable"
 	return db, nil
 }
