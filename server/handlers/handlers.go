@@ -13,6 +13,7 @@ import (
 type Handlers interface {
 	GetBookDetails(c *gin.Context)
 	AddComment(c *gin.Context)
+	ListBookComments(c *gin.Context)
 }
 
 type HandlersImpl struct {
@@ -67,4 +68,15 @@ func (h HandlersImpl) AddComment(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"status": http.StatusOK})
+}
+
+func (h HandlersImpl) ListBookComments(c *gin.Context) {
+	bookID := c.Param("bookID")
+	ctx := c.Request.Context()
+	comments, err := h.books.ListBookComments(ctx, bookID)
+	if err != nil {
+		jsonErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"comments": comments})
 }

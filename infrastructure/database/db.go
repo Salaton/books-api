@@ -8,6 +8,7 @@ import (
 	"github.com/google/uuid"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 )
@@ -53,4 +54,14 @@ func (db *BooksDB) CreateComment(ctx context.Context, input models.Comments) err
 	}
 
 	return nil
+}
+
+func (db *BooksDB) ListBookComments(ctx context.Context, bookID string) ([]*models.Comments, error) {
+	var comments []*models.Comments
+	err := db.db.Where(&models.Comments{Book: bookID}).
+		Order(clause.OrderByColumn{Column: clause.Column{Name: "created_at"}, Desc: true}).Find(&comments).Error
+	if err != nil {
+		return nil, err
+	}
+	return comments, nil
 }
