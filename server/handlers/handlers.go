@@ -3,6 +3,7 @@ package handlers
 import (
 	"context"
 	"net/http"
+	"time"
 
 	"github.com/Salaton/books-api/models"
 	"github.com/Salaton/books-api/usecase"
@@ -42,6 +43,8 @@ func (h HandlersImpl) GetBookDetails(c *gin.Context) {
 func (h HandlersImpl) AddComment(c *gin.Context) {
 	ctx := context.Background()
 	var comment models.Comments
+	bookID := c.Param("bookID")
+	ip := c.ClientIP()
 
 	// Call BindJSON to bind the received JSON to
 	// comment
@@ -49,7 +52,15 @@ func (h HandlersImpl) AddComment(c *gin.Context) {
 		return
 	}
 
-	err := h.books.AddComment(ctx, comment)
+	currentTime := time.Now().UTC()
+	payload := models.Comments{
+		Book:      bookID,
+		Comment:   comment.Comment,
+		IPAddress: ip,
+		CreatedAt: &currentTime,
+	}
+
+	err := h.books.AddComment(ctx, payload)
 	if err != nil {
 		jsonErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
