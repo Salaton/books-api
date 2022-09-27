@@ -8,4 +8,5 @@ import (
 
 type Create interface {
 	CreateComment(ctx context.Context, input models.Comments) error
+	ListBookComments(ctx context.Context, bookID string) ([]*models.Comments, error)
 }

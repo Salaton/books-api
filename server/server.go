@@ -26,6 +26,7 @@ func Router(ctx context.Context) *gin.Engine {
 	{
 		v1.GET("/books", handler.GetBookDetails)
 		v1.POST("/comments/:bookID", handler.AddComment)
+		v1.GET("/comments/:bookID", handler.ListBookComments)
 	}
 
 	return router

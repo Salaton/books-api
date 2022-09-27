@@ -20,6 +20,7 @@ const (
 type BookStore interface {
 	GetBookDetails(ctx context.Context) ([]*models.BookDetails, error)
 	AddComment(ctx context.Context, input models.Comments) error
+	ListBookComments(ctx context.Context, bookID string) ([]*models.Comments, error)
 }
 
 type BookStoreDetails struct {
@@ -60,6 +61,14 @@ func (b *BookStoreDetails) AddComment(ctx context.Context, input models.Comments
 	}
 
 	return nil
+}
+
+func (b *BookStoreDetails) ListBookComments(ctx context.Context, bookID string) ([]*models.Comments, error) {
+	comments, err := b.create.ListBookComments(ctx, bookID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to list the book's comments: %w", err)
+	}
+	return comments, nil
 }
 
 // TODO: Extract this to a different file
