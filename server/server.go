@@ -19,7 +19,7 @@ func Router(ctx context.Context) *gin.Engine {
 	}
 
 	repository := database.NewBooksDataStore(postgresDB)
-	booksUseCase := usecase.NewBookStoreImplementation(repository)
+	booksUseCase := usecase.NewBookStoreImplementation(repository, repository)
 	handler := handlers.NewHandlersImplementation(booksUseCase)
 
 	v1 := router.Group("/api/v1")
