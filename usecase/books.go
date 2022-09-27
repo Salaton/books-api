@@ -25,11 +25,13 @@ type BookStore interface {
 
 type BookStoreDetails struct {
 	create repository.Create
+	query  repository.Query
 }
 
-func NewBookStoreImplementation(create repository.Create) *BookStoreDetails {
+func NewBookStoreImplementation(create repository.Create, query repository.Query) *BookStoreDetails {
 	return &BookStoreDetails{
 		create: create,
+		query:  query,
 	}
 }
 
@@ -64,7 +66,7 @@ func (b *BookStoreDetails) AddComment(ctx context.Context, input models.Comments
 }
 
 func (b *BookStoreDetails) ListBookComments(ctx context.Context, bookID string) ([]*models.Comments, error) {
-	comments, err := b.create.ListBookComments(ctx, bookID)
+	comments, err := b.query.ListBookComments(ctx, bookID)
 	if err != nil {
 		return nil, fmt.Errorf("failed to list the book's comments: %w", err)
 	}
