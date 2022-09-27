@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"time"
 
 	"github.com/Salaton/books-api/models"
 	"github.com/Salaton/books-api/repository"
@@ -55,9 +54,6 @@ func (b *BookStoreDetails) GetBookDetails(ctx context.Context) ([]*models.BookDe
 }
 
 func (b *BookStoreDetails) AddComment(ctx context.Context, input models.Comments) error {
-	// TODO: Capture the IP Address here
-	currentTime := time.Now()
-	input.CreatedAt = &currentTime
 	err := b.create.CreateComment(ctx, input)
 	if err != nil {
 		return err

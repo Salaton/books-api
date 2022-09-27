@@ -25,7 +25,7 @@ func Router(ctx context.Context) *gin.Engine {
 	v1 := router.Group("/api/v1")
 	{
 		v1.GET("/books", handler.GetBookDetails)
-		v1.POST("/comments", handler.AddComment)
+		v1.POST("/comments/:bookID", handler.AddComment)
 	}
 
 	return router
