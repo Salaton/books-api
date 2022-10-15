@@ -15,7 +15,7 @@ func Router(ctx context.Context) *gin.Engine {
 
 	postgresDB, err := database.ConnectToDatabase()
 	if err != nil {
-		log.Fatal().Err(err).Msg("an error occured while connecting to the database")
+		log.Fatal().Err(err).Msg("an error occurred while connecting to the database")
 	}
 
 	repository := database.NewBooksDataStore(postgresDB)
