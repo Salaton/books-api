@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	"log"
 
 	"github.com/Salaton/books-api/server"
 	"github.com/spf13/cobra"
@@ -14,7 +15,10 @@ var serveCmd = &cobra.Command{
 	Long:  `Serve is a command used to run the server`,
 	Run: func(cmd *cobra.Command, args []string) {
 		srv := server.Router(context.Background())
-		srv.Run()
+		err := srv.Run()
+		if err != nil {
+			log.Printf("an error occurred while running the server: %v", err)
+		}
 	},
 }
 

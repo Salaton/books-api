@@ -93,7 +93,7 @@ func MakeRequest(ctx context.Context, method string, path string, body interface
 
 	response, err := client.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("an error occured while sending a HTTP request: %w", err)
+		return nil, fmt.Errorf("an error occurred while sending a HTTP request: %w", err)
 	}
 
 	return response, nil
